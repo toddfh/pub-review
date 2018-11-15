@@ -5,6 +5,10 @@ from accounts.forms import RegistrationForm
 # Create your views here.
 
 
+def home(request):
+    return HttpResponse('Placeholder code')
+
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
