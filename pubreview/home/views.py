@@ -13,3 +13,6 @@ def home(request):
 	context = {"city":city,"country":country_name}
 	return render(request, 'home/index.html', context)
 
+
+def login_test(request):
+	return render(request, 'home/login_test.html')
