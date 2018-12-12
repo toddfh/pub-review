@@ -7,4 +7,7 @@
   <h2>Login</h2>
     {% include 'accounts/form.html' with form=form %}
 </div>
+<div class="container">
+  <small>Need an Account? <a href="{% url 'register' %}">Register</a></small>
+</div>
 {% endblock %}

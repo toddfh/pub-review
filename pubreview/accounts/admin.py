@@ -5,7 +5,7 @@ from django.contrib.auth.admin import \
     UserAdmin as BaseUserAdmin
 
 from .forms import UserCreationForm
-from .models import User
+from .models import User, Profile
 
 
 class UserAdmin(BaseUserAdmin):
@@ -15,8 +15,8 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_admin',)
 
     fieldsets = (
-                    (None, {'fields': ('email', 'password')}),
-                    ('Permissions',{'fields':('is_admin',)})
+        (None, {'fields': ('email', 'password')}),
+        ('Permissions', {'fields': ('is_admin',)})
     )
     search_fields = ('email',)
     ordering = ('email',)
@@ -26,3 +26,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 admin.site.unregister(Group)
+admin.site.register(Profile)
