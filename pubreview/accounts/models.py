@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     User
 )
+from pub.models import Pub
 from PIL import Image
 
 
@@ -64,6 +65,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=75, null=True)
     image = models.ImageField(
         default='profile_pics/default.jpg', upload_to='profile_pics')
+    favorites = models.ManyToManyField(Pub, related_name='favorited_by')
 
     def __str__(self):
         return f'{self.user.email} Profile'
