@@ -11,7 +11,7 @@ from .forms import (
 
 from django.contrib.auth import login, logout, get_user_model
 
-from .models import User
+from .models import User, Profile
 
 
 def home(request):

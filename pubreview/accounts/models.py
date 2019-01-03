@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
@@ -41,7 +42,6 @@ class User(AbstractBaseUser):
     )
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -61,16 +61,17 @@ class User(AbstractBaseUser):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     username = models.CharField(max_length=75, null=True)
     image = models.ImageField(
-        default='profile_pics/default.jpg', upload_to='profile_pics')
-    favorites = models.ManyToManyField(Pub, related_name='favorited_by')
+        default='profile_pics/default.jpg', upload_to='profile_pics', null=True)
+    favorites = models.ManyToManyField(
+        Pub, related_name='favorited_by', null=True)
 
     def __str__(self):
         return f'{self.user.email} Profile'
 
-    def save(self):
+    def save(self, force_insert=False, force_update=False, using=None):
         super().save()
 
         img = Image.open(self.image.path)
@@ -79,3 +80,11 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+# def create_profile(sender, **kwargs):
+#     if kwargs['created']:
+#         user_profile = Profile.objects.create(user=kwargs['instance'])
+#
+#
+# post_save.connect(create_profile, sender=User)
